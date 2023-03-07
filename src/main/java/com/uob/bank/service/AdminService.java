@@ -2,7 +2,6 @@ package com.uob.bank.service;
 
 import com.uob.bank.dto.TransactionDto;
 import com.uob.bank.model.Transaction;
-
 import java.util.List;
 
 public interface AdminService {

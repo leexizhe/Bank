@@ -1,11 +1,10 @@
 package com.uob.bank.model;
 
+import java.time.LocalDateTime;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,12 +25,19 @@ public class Transaction {
 
     @Column(precision = 10, scale = 2)
     double amount;
+
     @Column(name = "transaction_type")
     private TransactionType transactionType;
+
     @Column(name = "account_type")
     private AccountType accountType;
 
-    public Transaction(Long userId, LocalDateTime localDateTime, double amount, TransactionType transactionType, AccountType accountType) {
+    public Transaction(
+            Long userId,
+            LocalDateTime localDateTime,
+            double amount,
+            TransactionType transactionType,
+            AccountType accountType) {
         this.userId = userId;
         this.localDateTime = localDateTime;
         this.amount = amount;
@@ -39,18 +45,22 @@ public class Transaction {
         this.accountType = accountType;
     }
 
-    public Transaction(double amount, LocalDateTime localDateTime, TransactionType transactionType, AccountType accountType) {
+    public Transaction(
+            double amount, LocalDateTime localDateTime, TransactionType transactionType, AccountType accountType) {
         this.amount = amount;
         this.localDateTime = localDateTime;
         this.transactionType = transactionType;
         this.accountType = accountType;
     }
 
-    public enum TransactionType {DEPOSIT, WITHDRAW}
+    public enum TransactionType {
+        DEPOSIT,
+        WITHDRAW
+    };
 
-    ;
-
-    public enum AccountType {SAVING, FIXED, RECURRING}
-
-    ;
+    public enum AccountType {
+        SAVING,
+        FIXED,
+        RECURRING
+    };
 }
