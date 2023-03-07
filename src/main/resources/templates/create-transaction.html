@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <div th:replace="components :: head"></div>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="components :: after-login"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <br>
+            <div th:if="${param.success}">
+                <div class="alert alert-success">
+                    New Transaction Made <br>
+                    Saving Account : <span th:text="${#numbers.formatCurrency(totalAmount)}"></span>
+                </div>
+            </div>
+            <div th:if="${param.failure}">
+                <div class="alert alert-danger" th:with="variable=${totalAmount - 500.0}">
+                    Saving Account Minimum Balance : $500 <br>
+                    Maximum Withdrawal : <span th:text="${#numbers.formatCurrency(variable)}"></span></div>
+            </div>
+
+            <h1> Transaction</h1>
+
+            <form th:action="@{/transaction}" method="post" th:object="${transactionDto}">
+                <label for="amount" class="form-label">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" step="0.01" min="0.01" class="form-control" id="amount" th:field="*{amount}">
+                </div>
+                Transaction Type
+                <br>
+                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined"
+                       autocomplete="off" th:field="*{transactionType}" value="DEPOSIT">
+                <label class="btn btn-outline-success" for="success-outlined">DEPOSIT</label>
+
+                <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined"
+                       autocomplete="off" th:field="*{transactionType}" value="WITHDRAW">
+                <label class="btn btn-outline-danger" for="danger-outlined">WITHDRAW</label>
+
+                <br>
+                Account Type
+                <br>
+                <select class="form-select" th:field="*{accountType}">
+                    <option selected value="SAVING">SAVING</option>
+                    <!--                        <option value="FIXED">FIXED</option>-->
+                    <!--                        <option value="RECURRING">RECURRING</option>-->
+                </select>
+
+                <br>
+                <p class="text-center">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <a th:href="@{/}" class="btn btn-danger">Cancel</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="components :: js"></div>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">&copy; Copyright 2022 Group 1</span>
+    </div>
+</footer>
+</body>
+</html>

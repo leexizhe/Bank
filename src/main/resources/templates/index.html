@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <div th:replace="components :: head"></div>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="components :: after-login"></div>
+<div class="container">
+    <h1>
+        Welcome to Hello Bank, <span th:text="${user.firstName}"></span> !
+    </h1>
+    <h3>
+        Saving Account : <span th:text="${#numbers.formatCurrency(totalAmount)}"></span>
+    </h3>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <a th:href="@{/transaction}" class="btn btn-primary btn-sm mb-3"> Add Transaction</a>
+        </div>
+        <table class="table table-secondary table-striped table-bordered ">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Account Type</th>
+                <th scope="col">Transaction Type</th>
+                <th scope="col">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="transaction: ${transactionsList}">
+                <td th:text="${#temporals.format(transaction.localDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${transaction.accountType}"></td>
+                <td th:text="${transaction.transactionType}"></td>
+                <td th:style="${transaction.amount>0 ? 'color: green;' : 'color: red;'}"
+                    th:text="${#numbers.formatCurrency(transaction.amount)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="components :: js"></div>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">&copy; Copyright 2022 Group 1</span>
+    </div>
+</footer>
+</body>
+</html>

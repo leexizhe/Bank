@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <div th:replace="components :: head"></div>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="components :: before-login"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <br>
+            <div th:if="${param.success}">
+                <div class="alert alert-success">You've successfully registered</div>
+            </div>
+            <div th:if="${param.failure}">
+                <div class="alert alert-danger">Email is already registered, try another email</div>
+            </div>
+
+            <h1> Registration</h1>
+            <form th:action="@{/registration}" method="post" th:object="${userRegistrationDto}">
+                <label for="firstName"> First Name </label>
+                <input id="firstName" class="form-control" th:field="*{firstName}" required/>
+
+                <label for="lastName"> Last Name </label>
+                <input id="lastName" class="form-control" th:field="*{lastName}" required/>
+
+                <label for="email"> Email </label>
+                <input id="email" class="form-control" type="email" th:field="*{email}" required/>
+
+                <label for="password1"> Password </label>
+                <input id="password1" class="form-control" type="password" th:field="*{password}" minlength="5"
+                       required/>
+
+                <label for="password2"> Confirm Password </label>
+                <input id="password2" class="form-control" type="password" minlength="5" required
+                       oninput='password2.setCustomValidity(password2.value != password1.value ? "Passwords do not match." : "")'/>
+
+                <label for="contactNumber"> Contact Number </label>
+                <input id="contactNumber" class="form-control" type="number" th:field="*{contactNumber}" required/>
+
+                <label for="address"> Address </label>
+                <input id="address" class="form-control" th:field="*{address}" required/>
+
+                <label class="form-label" for="nomineeDetails"> Nominee Details </label>
+                <input id="nomineeDetails" class="form-control" th:field="*{nomineeDetails}" required/>
+
+                <br>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
+                    <label class="form-check-label" for="flexCheckDefault">
+                        An initial deposit of $500 is required to open a saving account.
+                    </label>
+                </div>
+
+                <br>
+                <p class="text-center">
+                    <button type="submit" class="btn btn-success">Register</button>
+                    <span>Already registered? <a th:href="@{/login}">Login here</a></span>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">&copy; Copyright 2022 Group 1</span>
+    </div>
+</footer>
+</body>
+</html>

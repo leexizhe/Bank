@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <div th:replace="components :: head"></div>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="components :: after-login"></div>
+<div class="container">
+</div>
+<br>
+<div class="container">
+  <div class="row">
+      <div th:if="${param.updated}">
+        <div class="alert alert-success">You've successfully updated the transaction</div>
+      </div>
+    <div th:if="${param.deleted}">
+      <div class="alert alert-success">You've successfully deleted the transaction</div>
+    </div>
+    <table class="table table-secondary table-striped table-bordered ">
+      <thead class="table-dark">
+      <tr>
+        <th scope="col">Timestamp</th>
+        <th scope="col">User Id</th>
+        <th scope="col">Account Type</th>
+        <th scope="col">Transaction Type</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr th:each="transaction: ${allTransactionsList}">
+        <td th:text="${#temporals.format(transaction.localDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${transaction.userId}"></td>
+        <td th:text="${transaction.accountType}"></td>
+        <td th:text="${transaction.transactionType}"></td>
+        <td th:style="${transaction.amount>0 ? 'color: green;' : 'color: red;'}"
+            th:text="${#numbers.formatCurrency(transaction.amount)}"></td>
+        <td>
+          <a th:href="@{/admin/edit/{id}(id=${transaction.id})}"
+             class="btn btn-primary">Update</a>
+          <a th:href="@{/admin/delete/{id}(id=${transaction.id})}"
+             class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div th:replace="components :: js"></div>
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">&copy; Copyright 2022 Group 1</span>
+  </div>
+</footer>
+</body>
+</html>
