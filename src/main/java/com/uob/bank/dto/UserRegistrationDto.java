@@ -16,7 +16,14 @@ public class UserRegistrationDto {
     private String address;
     private String nomineeDetails;
 
-    public UserRegistrationDto(String firstName, String lastName, String email, String password, int contactNumber, String address, String nomineeDetails) {
+    public UserRegistrationDto(
+            String firstName,
+            String lastName,
+            String email,
+            String password,
+            int contactNumber,
+            String address,
+            String nomineeDetails) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,7 +33,8 @@ public class UserRegistrationDto {
         this.nomineeDetails = nomineeDetails;
     }
 
-    public UserRegistrationDto(String firstName, String lastName, int contactNumber, String address, String nomineeDetails) {
+    public UserRegistrationDto(
+            String firstName, String lastName, int contactNumber, String address, String nomineeDetails) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.contactNumber = contactNumber;

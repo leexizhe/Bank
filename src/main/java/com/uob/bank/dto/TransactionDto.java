@@ -15,7 +15,8 @@ public class TransactionDto {
     private Transaction.TransactionType transactionType;
     private Transaction.AccountType accountType;
 
-    public TransactionDto(double amount, Transaction.TransactionType transactionType, Transaction.AccountType accountType) {
+    public TransactionDto(
+            double amount, Transaction.TransactionType transactionType, Transaction.AccountType accountType) {
         this.amount = amount;
         this.transactionType = transactionType;
         this.accountType = accountType;

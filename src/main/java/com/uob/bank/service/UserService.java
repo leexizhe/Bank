@@ -1,7 +1,7 @@
 package com.uob.bank.service;
 
-import com.uob.bank.model.User;
 import com.uob.bank.dto.UserRegistrationDto;
+import com.uob.bank.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

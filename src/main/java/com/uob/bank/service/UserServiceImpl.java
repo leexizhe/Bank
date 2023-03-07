@@ -5,6 +5,11 @@ import com.uob.bank.model.Role;
 import com.uob.bank.model.Transaction;
 import com.uob.bank.model.User;
 import com.uob.bank.repository.UserRepository;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,24 +18,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public String save(UserRegistrationDto userRegistrationDto) {
         if (Objects.isNull(userRepository.findByEmail(userRegistrationDto.getEmail()))) {
-            User user = new User(userRegistrationDto.getFirstName(),
+            User user = new User(
+                    userRegistrationDto.getFirstName(),
                     userRegistrationDto.getLastName(),
                     userRegistrationDto.getEmail(),
                     passwordEncoder.encode(userRegistrationDto.getPassword()),
@@ -38,14 +39,17 @@ public class UserServiceImpl implements UserService {
                     userRegistrationDto.getAddress(),
                     userRegistrationDto.getNomineeDetails(),
                     Arrays.asList(new Role("ROLE_USER")),
-                    Arrays.asList(new Transaction(500, LocalDateTime.now(), Transaction.TransactionType.DEPOSIT, Transaction.AccountType.SAVING)));
+                    Arrays.asList(new Transaction(
+                            500,
+                            LocalDateTime.now(),
+                            Transaction.TransactionType.DEPOSIT,
+                            Transaction.AccountType.SAVING)));
             userRepository.save(user);
             return "redirect:/registration?success";
         } else {
             return "redirect:/registration?failure";
         }
     }
-
 
     @Override
     public User getUserByEmail(String email) {
@@ -94,10 +98,13 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     public Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 }

@@ -4,22 +4,23 @@ import com.uob.bank.dto.TransactionDto;
 import com.uob.bank.model.Transaction;
 import com.uob.bank.repository.TransactionRepository;
 import com.uob.bank.repository.UserRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private TransactionRepository transactionRepository;
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public TransactionDto getTransactionDtoById(Long id) {
         Transaction transaction = transactionRepository.findById(id).get();
-        return new TransactionDto(Math.abs(transaction.getAmount()), transaction.getTransactionType(), transaction.getAccountType());
+        return new TransactionDto(
+                Math.abs(transaction.getAmount()), transaction.getTransactionType(), transaction.getAccountType());
     }
 
     @Override
